@@ -33,6 +33,14 @@ namespace LabCoffeeShopApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSession(options => {
+                options.Cookie.Name = ".GrandCircus.Example";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            services.AddDistributedMemoryCache();
+            services.AddHttpContextAccessor();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             var connection = "Server=localhost;Database=LabCoffeeShopApp;Trusted_Connection=True";
@@ -59,7 +67,7 @@ namespace LabCoffeeShopApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

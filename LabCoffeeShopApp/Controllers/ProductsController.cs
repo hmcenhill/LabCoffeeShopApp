@@ -6,27 +6,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabCoffeeShopApp.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace LabCoffeeShopApp.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly CoffeeShopContext _context;
+        private readonly ISession _session;
 
-        public ProductsController(CoffeeShopContext context)
+        public ProductsController(CoffeeShopContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _session = httpContextAccessor.HttpContext.Session;
+
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            ViewBag.Login = _session.GetString("User");
+
             return View(await _context.Products.ToListAsync());
         }
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewBag.Login = _session.GetString("User");
+
             if (id == null)
             {
                 return NotFound();
@@ -45,6 +53,8 @@ namespace LabCoffeeShopApp.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            ViewBag.Login = _session.GetString("User");
+
             return View();
         }
 
@@ -67,6 +77,8 @@ namespace LabCoffeeShopApp.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Login = _session.GetString("User");
+
             if (id == null)
             {
                 return NotFound();
@@ -118,6 +130,8 @@ namespace LabCoffeeShopApp.Controllers
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewBag.Login = _session.GetString("User");
+
             if (id == null)
             {
                 return NotFound();
