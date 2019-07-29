@@ -35,11 +35,11 @@ namespace LabCoffeeShopApp
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<UserContext>(options =>
+            var connection = "Server=localhost;Database=LabCoffeeShopApp;Trusted_Connection=True";
+            services.AddDbContext<CoffeeShopContext>(options =>
             {
-                options.UseSqlServer("Server=localhost;Database=LabCoffeeShopApp;Trusted_Connection=True");
+                options.UseSqlServer(connection);
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

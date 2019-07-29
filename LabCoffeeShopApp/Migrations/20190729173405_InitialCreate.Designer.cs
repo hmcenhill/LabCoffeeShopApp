@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LabCoffeeShopApp.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20190726014504_Initial")]
-    partial class Initial
+    [DbContext(typeof(CoffeeShopContext))]
+    [Migration("20190729173405_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,6 +19,23 @@ namespace LabCoffeeShopApp.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("LabCoffeeShopApp.Data.Product", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<float>("Price");
+
+                    b.Property<float>("Quantity");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
+                });
 
             modelBuilder.Entity("LabCoffeeShopApp.Data.User", b =>
                 {

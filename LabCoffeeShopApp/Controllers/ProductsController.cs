@@ -9,22 +9,22 @@ using LabCoffeeShopApp.Data;
 
 namespace LabCoffeeShopApp.Controllers
 {
-    public class UsersController : Controller
+    public class ProductsController : Controller
     {
         private readonly CoffeeShopContext _context;
 
-        public UsersController(CoffeeShopContext context)
+        public ProductsController(CoffeeShopContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Products.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace LabCoffeeShopApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.ProductID == id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(product);
         }
 
-        // GET: Users/Create
+        // GET: Products/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,FirstName,LastName,Email,Password")] User user)
+        public async Task<IActionResult> Create([Bind("ProductID,Description,Quantity,Price")] Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(product);
         }
 
-        // GET: Users/Edit/5
+        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace LabCoffeeShopApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(product);
         }
 
-        // POST: Users/Edit/5
+        // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,FirstName,LastName,Email,Password")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductID,Description,Quantity,Price")] Product product)
         {
-            if (id != user.UserID)
+            if (id != product.ProductID)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace LabCoffeeShopApp.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserID))
+                    if (!ProductExists(product.ProductID))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace LabCoffeeShopApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(product);
         }
 
-        // GET: Users/Delete/5
+        // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace LabCoffeeShopApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.ProductID == id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(product);
         }
 
-        // POST: Users/Delete/5
+        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var product = await _context.Products.FindAsync(id);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool ProductExists(int id)
         {
-            return _context.Users.Any(e => e.UserID == id);
+            return _context.Products.Any(e => e.ProductID == id);
         }
     }
 }
